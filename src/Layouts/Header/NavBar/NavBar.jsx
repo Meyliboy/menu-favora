@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
+import URL from "../../../Middleware/GetApi";
 
 const NavBar = ({ setCategory }) => {
-  const URL = "https://api.favvora-urgench.uz/site/menu";
+
 
   const [dataNav, setDataNav] = useState([]);
   const [selectedID, setSelectedID] = useState();
@@ -12,7 +13,7 @@ const NavBar = ({ setCategory }) => {
   const [showd, setShowd] = useState(false);
 
   useEffect(() => {
-    fetch(`${URL}/category`)
+    fetch(`${URL}category`)
       .then((res) => res.json())
       .then((dataNav) => {
         setDataNav(dataNav);
@@ -21,7 +22,6 @@ const NavBar = ({ setCategory }) => {
   }, []);
 
   function handleLink(id, title) {
-    
     if (id === 2) {
       setShow2(true)
     } else {
@@ -54,7 +54,7 @@ const NavBar = ({ setCategory }) => {
     <div className="nav-bar">
       <ul style={{marginBottom: '5px'}}>
         <NavLink to={"/"}>
-          <li onClick={() => setCategory('hammasi')}>Hammasi</li>
+          <li onClick={() => setCategory('hammasi')}><button className="nav-bar__all-link">Hammasi</button></li>
         </NavLink>
         {navFilter.length ? (
           navFilter.map((el) => (
