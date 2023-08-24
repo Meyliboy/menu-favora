@@ -36,23 +36,26 @@ function App() {
   const [itemPrice, setItemPrice] = useState(0);
 
 
+
   useEffect(() => {
     localStorage.setItem("wishlist", JSON.stringify(cart));
-  }, [cart]);
+  }, [cart]); 
 
   function handleClick(item, complited) {
     setComplited(complited);
-    if(complited) {
-      let isPresent = false;
-      cart.forEach((product) => {
-        if (item.id === product.id) isPresent = true;
-      });
-      if (isPresent) return;
-      setCart([...cart, item]);
-    } else if(complited === false) {
-      setCart(cart.pop())
+    let isPresent = false;
+    cart.forEach((product) => {
+      if (item.id === product.id) isPresent = true;
+    });
+    if (isPresent) return;
+    setCart([...cart, item]);
     }
-  }
+
+    const removeFromCart = (item , complited) => {
+    setComplited(complited);
+      const updatedCartItems = cart.filter((cartItem) => cartItem.id !== item.id);
+      setCart(updatedCartItems);
+    };
 
   useEffect(() => {
     fetch(URL)
@@ -76,6 +79,7 @@ function App() {
         itemPrice,
         setItemPrice,
         getTotal,
+        removeFromCart,
       }}
     >
       <div className="wrapper">

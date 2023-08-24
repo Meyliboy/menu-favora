@@ -316,9 +316,10 @@ button[disabled]{
 /* Main */
 .main__container {
   width: 1200px;
-  height: 60vh;
+  height: 400px;
   overflow: auto;
   display: flex;
+  align-content: start;
   flex-wrap: wrap;
   transition: all 0.3s ease;
 }
