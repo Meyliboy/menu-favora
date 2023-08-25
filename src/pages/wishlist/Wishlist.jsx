@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import WishlistItems from "../../Components/Items/WishlistItems/WishlistItems";
-import { Context } from "../../Context/Contex";
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 
 const Wishlist = ({cart}) => {
-  const {price, getTotal} = useContext(Context)
+  const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    const storeData = JSON.parse(localStorage.getItem("wishlist")) || [];
+    let initialValue = 0
+    const total = storeData.reduce((accumulator, current) => accumulator + current.summa * current.count, initialValue)
+    setTotal(total)
+  },[cart])
+  
   return (
     <div className="wishlist__wrapper">
       <div className="wishlist__header">
@@ -14,12 +21,12 @@ const Wishlist = ({cart}) => {
           </button>
         </Link>
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          Jami:&nbsp; <span>{getTotal()}</span> so'm
+          Jami:&nbsp; <span>{total.toLocaleString()}</span> &nbsp;so'm
         </div>
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>Sevimlilar</div>
       </div>
       <div className="wishlist__main">
-        {cart.length > 0 ? <div>
+        {cart.length >= 1 ? <div>
           <WishlistItems cart={cart} />
         </div> : <div className="wishlist__empty-text">
           Sevimlilar ro'yxati bo'sh 🗑️
@@ -30,3 +37,4 @@ const Wishlist = ({cart}) => {
 };
 
 export default Wishlist;
+ 

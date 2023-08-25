@@ -7,14 +7,13 @@ import Location from "../Layouts/Header/Location/Location";
 import URL from "../Middleware/GetApi";
 import { Context } from "../Context/Contex";
 
-const cartFromLocalStorage = JSON.parse(
-  localStorage.getItem("wishlist") || "[]"
-);
+
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [data, setData] = useState([]);
-  const [cart, setCart] = useState(cartFromLocalStorage);
+  const [cart, setCart] = useState([]);
+  const [isChange, setChange] = useState(false);
 
   function getTotal() {
     let temp = cart.map((item) => {
@@ -30,32 +29,16 @@ function App() {
 
   const [category, setCategory] = useState("");
   const [value, setValue] = useState("");
-  const [complited, setComplited] = useState(false);
 
   const [price, setPrice] = useState(0);
   const [itemPrice, setItemPrice] = useState(0);
 
-
-
   useEffect(() => {
-    localStorage.setItem("wishlist", JSON.stringify(cart));
-  }, [cart]); 
-
-  function handleClick(item, complited) {
-    setComplited(complited);
-    let isPresent = false;
-    cart.forEach((product) => {
-      if (item.id === product.id) isPresent = true;
-    });
-    if (isPresent) return;
-    setCart([...cart, item]);
+    const storeData = JSON.parse(localStorage.getItem("wishlist"));
+    if (storeData) {
+      setCart(storeData);
     }
-
-    const removeFromCart = (item , complited) => {
-    setComplited(complited);
-      const updatedCartItems = cart.filter((cartItem) => cartItem.id !== item.id);
-      setCart(updatedCartItems);
-    };
+  }, [isChange]);
 
   useEffect(() => {
     fetch(URL)
@@ -69,7 +52,6 @@ function App() {
   return (
     <Context.Provider
       value={{
-        handleClick,
         setValue,
         setSearchParams,
         setCategory,
@@ -79,17 +61,32 @@ function App() {
         itemPrice,
         setItemPrice,
         getTotal,
-        removeFromCart,
+        data,
+        cart,
+        setChange,
+        isChange,
       }}
     >
       <div className="wrapper">
         <div className="container">
           <Location sizeCart={cart.length} />
           <Routes>
-            <Route path="/" element={<Home data={data} value={value} category={category} complited={complited} />} />
+            <Route
+              path="/"
+              element={
+                <Home
+                  data={data}
+                  value={value}
+                  category={category}
+                />
+              }
+            />
           </Routes>
           <Routes>
-            <Route path="/:id" element={<Home data={data} value={value} category={category} complited={complited} />} />
+            <Route
+              path="/:id"
+              element={<Home data={data} value={value} category={category} />}
+            />
             <Route path="/wishlist" element={<Wishlist cart={cart} />} />
           </Routes>
         </div>

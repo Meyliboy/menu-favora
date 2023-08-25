@@ -1,31 +1,31 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Context } from "../../../Context/Contex";
 
 const WishlistItems = ({ cart }) => {
-  const { setPrice } = useContext(Context);
   const { setCart } = useContext(Context);
-  const [amount, setAmount] = useState(1);
 
-  const handlePrice = () => {
-    let ans = 0
-    if(amount >= 1) {
-      cart.map((item) => (
-        ans += amount * item.summa
-        ))
-        setPrice(ans)
+  const removeItemCart = (id) => {
+    const data = JSON.parse(localStorage.getItem("wishlist"));
+    const resDeleted = data.filter((item) => item.id !== id);
+    localStorage.setItem("wishlist", JSON.stringify(resDeleted));
+    setCart(resDeleted);
+  };
+
+  function isCounterItem(post, action) {
+    const storeData = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const resaultData = storeData.map((item) => {
+      let count = item.count;
+      if (item.id === post.id) {
+        if (action === "plus") {
+          count++;
+        } else if (action === "minus") {
+          count--;
+        }
       }
-  };
-  const handleRomove = (id) => {
-    const arr = cart.filter((item) => item.id !== id);
-    setCart(arr);
-    // handlePrice()
-  };
-  useEffect(() => {
-    handlePrice();
-  });
-  function handleChange(post, d) {
-    setAmount(amount + d)
-    console.log(post, d);
+      return { ...item, count };
+    });
+    localStorage.setItem("wishlist", JSON.stringify(resaultData));
+    setCart(resaultData);
   }
 
   return (
@@ -44,21 +44,38 @@ const WishlistItems = ({ cart }) => {
           </div>
           <div className="item-text">
             <p className="item-title">{post.title}</p>
-            <p style={{display: 'flex'}}>{post.summa} so'm  </p>
-            {/* <div className="wishlist__product-ocunt">x{amount}</div> */}
+            <p style={{ display: "flex" }}>
+              {post.summa} so'm{" "}
+              <div className="wishlist__product-ocunt">x{post.count}</div>
+            </p>
+
             <p className="item-desc">{post.text}</p>
           </div>
           {/* Plus and Nimus btns ↓↓ */}
-          {/* <div className="btns">
+          <div className="btns">
             <button
               className="btns__plus"
-              onClick={() => handleChange(post, +1)}
+              onClick={() => isCounterItem(post, "plus")}
             >
-              +
+              {" "}
+              +{" "}
             </button>
-            {amount > 1 ? <button className='btns__minus' onClick={() => handleChange(post, -1)}>-</button> : <button disabled> - </button>}
-          </div> */}
-          <button className="delete__btn" onClick={() => handleRomove(post.id)}>
+            {post.count > 1 ? (
+              <button
+                className="btns__minus"
+                onClick={() => isCounterItem(post, "minus")}
+              >
+                {" "}
+                -{" "}
+              </button>
+            ) : (
+              <button disabled> - </button>
+            )}
+          </div>
+          <button
+            className="delete__btn"
+            onClick={() => removeItemCart(post.id)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="0.8em"

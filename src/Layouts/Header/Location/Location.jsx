@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom"
 import logo from '../../../Assets/img/logo.png'
 
 const Location = ({sizeCart}) => {
+
+  // console.log(sizeCart);
   return (
     <div
         style={{
