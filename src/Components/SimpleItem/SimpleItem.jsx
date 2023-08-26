@@ -1,13 +1,13 @@
 const SimpleItem = ({post, isLike,handleItmsCart, setModal}) => {
   return (
-    <div className="simple-item__contain">
+    <div className="simple-item__contain" >
       <div className="simple-item">
         <div className="simple-item__img-box">
-            <img width={400} src={post.image ? post.image : 'https://menu.favvora-urgench.uz/assets/place-59bce3e1.jpg'} alt="" />
+            <img width={400} src={post.image ? post.image : 'https://menu.favvora-urgench.uz/assets/place-59bce3e1.jpg'} alt="img" />
         </div>
         <div className="simple-item__text">
           <div style={{display: 'flex', justifyContent: 'flex-end', margin: '5px 0'}}><button className="btn__close-modal" onClick={() => setModal(false)}><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" font-size="20" class="text-white md:text-black"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.758 17.243L12.001 12m5.243-5.243L12 12m0 0L6.758 6.757M12.001 12l5.243 5.243"></path></svg></button></div>
-          <div style={{display: 'flex', justifyContent: 'space-between', paddingRight: '8px'}}>
+          <div style={{display: 'flex', justifyContent: 'space-between', paddingRight: '5px'}}>
             <h4>{post.title}</h4> 
             <button onClick={() => handleItmsCart(post)}>
           {isLike ? (
@@ -42,7 +42,7 @@ const SimpleItem = ({post, isLike,handleItmsCart, setModal}) => {
           </div>
             <div className="simple-tem__summa"><span>{post.summa} so'm</span></div>
             <p>Tarkibi:</p>
-            <p className="simple-item__description">{post.text}</p>
+            <div className="simple-item__description">{post.text}</div>
         </div>
       </div>
     </div>

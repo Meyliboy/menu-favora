@@ -8,7 +8,7 @@ const Wishlist = ({cart}) => {
   useEffect(() => {
     const storeData = JSON.parse(localStorage.getItem("wishlist")) || [];
     let initialValue = 0
-    const total = storeData.reduce((accumulator, current) => accumulator + current.summa * current.count, initialValue)
+    const total = storeData.reduce((prev, next) => prev + next.summa * next.count, initialValue)
     setTotal(total)
   },[cart])
   

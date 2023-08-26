@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../../Context/Contex";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import SimpleItem from "../SimpleItem/SimpleItem";
 
 const Items = ({ el}) => {

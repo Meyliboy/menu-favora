@@ -57,16 +57,14 @@ const WishlistItems = ({ cart }) => {
               className="btns__plus"
               onClick={() => isCounterItem(post, "plus")}
             >
-              {" "}
-              +{" "}
+              +
             </button>
             {post.count > 1 ? (
               <button
                 className="btns__minus"
                 onClick={() => isCounterItem(post, "minus")}
               >
-                {" "}
-                -{" "}
+                -
               </button>
             ) : (
               <button disabled> - </button>

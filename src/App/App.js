@@ -15,23 +15,9 @@ function App() {
   const [cart, setCart] = useState([]);
   const [isChange, setChange] = useState(false);
 
-  function getTotal() {
-    let temp = cart.map((item) => {
-      return parseFloat(item.summa);
-    });
-
-    let sum = temp.reduce((prev, next) => {
-      return prev + next;
-    }, 0);
-
-    return sum;
-  }
-
   const [category, setCategory] = useState("");
   const [value, setValue] = useState("");
 
-  const [price, setPrice] = useState(0);
-  const [itemPrice, setItemPrice] = useState(0);
 
   useEffect(() => {
     const storeData = JSON.parse(localStorage.getItem("wishlist"));
@@ -52,19 +38,12 @@ function App() {
   return (
     <Context.Provider
       value={{
+        setCart,
+        setChange,
+        isChange,
         setValue,
         setSearchParams,
         setCategory,
-        setCart,
-        setPrice,
-        price,
-        itemPrice,
-        setItemPrice,
-        getTotal,
-        data,
-        cart,
-        setChange,
-        isChange,
       }}
     >
       <div className="wrapper">
